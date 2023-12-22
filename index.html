@@ -5,12 +5,28 @@
   <title>文字編輯器</title>
   <style>
     /* 基本的樣式設定 */
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 16px; /* 原始字體大小 */
+    }
+
+    button {
+      font-size: 32px; /* 兩倍字體大小 */
+      padding: 15px 30px; /* 調整按鈕內邊距 */
+      margin-bottom: 10px; /* 按鈕之間的間距 */
+    }
+
+    #editArea {
+      margin-bottom: 20px; /* 文本區域與按鈕之間的間距 */
+    }
   </style>
 </head>
 <body>
-  <textarea id="editArea" rows="10" cols="50"></textarea><br>
   <button onclick="copyText()">複製</button>
   <button onclick="restoreText()">還原</button>
+  <textarea id="editArea" rows="10" cols="50"></textarea><br>
 
   <script>
     // JavaScript
@@ -32,12 +48,4 @@
       // 恢復功能保持不變
       let editArea = document.getElementById('editArea');
       // 將剪貼簿內容放回文本區域
-      navigator.clipboard.readText().then(clipText => {
-        if (clipText !== '') {
-          editArea.value = clipText + '\n' + editArea.value;
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+      
