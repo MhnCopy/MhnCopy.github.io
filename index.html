@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 調整視窗適應行動裝置 -->
   <title>文字編輯器</title>
   <style>
     /* 基本的樣式設定 */
@@ -9,25 +10,26 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: 16px; /* 原始字體大小 */
+      font-size: 16px;
+      padding: 10px;
     }
 
     button {
-      font-size: 32px; /* 兩倍字體大小 */
-      padding: 15px 60px; /* 調整按鈕內邊距 */
-      margin-bottom: 10px; /* 按鈕之間的間距 */
+      font-size: 24px;
+      padding: 10px 30px;
+      margin-bottom: 10px;
     }
 
     #editArea {
-      margin-bottom: 10px; /* 文本區域與按鈕之間的間距 */
+      margin-bottom: 10px;
+      width: 100%; /* 使文本區域填滿可用寬度 */
+      box-sizing: border-box; /* 包括 padding 和 border 在內的元素寬度 */
     }
 
     #restoreBtn {
-      margin-top: 10px; /* 還原按鈕與文本區域之間的間距 */
+      margin-top: 10px;
     }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1127416172803135"
-  crossorigin="anonymous"></script>
 </head>
 <body>
   <button onclick="copyText()">複製</button>
