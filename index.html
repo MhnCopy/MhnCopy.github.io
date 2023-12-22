@@ -19,15 +19,22 @@
     }
 
     #editArea {
-      margin-bottom: 20px; /* 文本區域與按鈕之間的間距 */
+      margin-bottom: 10px; /* 文本區域與按鈕之間的間距 */
+    }
+
+    #restoreBtn {
+      margin-top: 10px; /* 還原按鈕與文本區域之間的間距 */
     }
   </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1127416172803135"
+  crossorigin="anonymous"></script>
 </head>
 <body>
   <button onclick="copyText()">複製</button>
   <br>
   <textarea id="editArea" rows="10" cols="50"></textarea><br>
-  <button onclick="restoreText()">還原</button>
+  <button id="restoreBtn" onclick="restoreText()">還原</button>
+
   <script>
     // JavaScript
     function copyText() {
