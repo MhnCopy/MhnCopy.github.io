@@ -1,8 +1,9 @@
+User
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 調整視窗適應行動裝置 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文字編輯器</title>
   <style>
     /* 基本的樣式設定 */
@@ -22,16 +23,16 @@
 
     #editArea {
       margin-bottom: 10px;
-      width: 100%; /* 使文本區域填滿可用寬度 */
-      box-sizing: border-box; /* 包括 padding 和 border 在內的元素寬度 */
+      width: 100%;
+      box-sizing: border-box;
     }
 
     #restoreBtn {
       margin-top: 10px;
     }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1127416172803135"
-  crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1127416172803135"
+     crossorigin="anonymous"></script>
 </head>
 <body>
   <button onclick="copyText()">複製</button>
@@ -40,30 +41,28 @@
   <button id="restoreBtn" onclick="restoreText()">還原</button>
 
   <script>
-    // JavaScript
+    let editHistory = []; // 用於記錄editArea的操作歷史
+
     function copyText() {
       let editArea = document.getElementById('editArea');
       let text = editArea.value;
       let lines = text.split('\n');
       if (lines.length > 1) {
-        // 將第一行複製到剪貼簿
         navigator.clipboard.writeText(lines[0]);
-
-        // 刪除第一行，將第二行變成第一行
         let remainingLines = lines.slice(1).join('\n');
         editArea.value = remainingLines;
+
+        // 將操作記錄到歷史中
+        editHistory.unshift(text);
       }
     }
 
     function restoreText() {
-      // 恢復功能保持不變
       let editArea = document.getElementById('editArea');
-      // 將剪貼簿內容放回文本區域
-      navigator.clipboard.readText().then(clipText => {
-        if (clipText !== '') {
-          editArea.value = clipText + '\n' + editArea.value;
-        }
-      });
+      if (editHistory.length > 0) {
+        let lastOperation = editHistory.shift(); // 取出佇列中的第一個操作
+        editArea.value = lastOperation;
+      }
     }
   </script>
 </body>
