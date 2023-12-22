@@ -14,7 +14,7 @@
 
     button {
       font-size: 32px; /* 兩倍字體大小 */
-      padding: 15px 30px; /* 調整按鈕內邊距 */
+      padding: 15px 60px; /* 調整按鈕內邊距 */
       margin-bottom: 10px; /* 按鈕之間的間距 */
     }
 
@@ -26,6 +26,7 @@
 <body>
   <button onclick="copyText()">複製</button>
   <button onclick="restoreText()">還原</button>
+  <br>
   <textarea id="editArea" rows="10" cols="50"></textarea><br>
 
   <script>
@@ -48,4 +49,12 @@
       // 恢復功能保持不變
       let editArea = document.getElementById('editArea');
       // 將剪貼簿內容放回文本區域
-      
+      navigator.clipboard.readText().then(clipText => {
+        if (clipText !== '') {
+          editArea.value = clipText + '\n' + editArea.value;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
