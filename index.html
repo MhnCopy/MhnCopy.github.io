@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>文字編輯器</title>
+  <style>
+    /* 基本的樣式設定 */
+  </style>
+</head>
+<body>
+  <textarea id="editArea" rows="10" cols="50"></textarea><br>
+  <button onclick="copyText()">複製</button>
+  <button onclick="restoreText()">還原</button>
+
+  <script>
+    // JavaScript
+    function copyText() {
+      let editArea = document.getElementById('editArea');
+      let text = editArea.value;
+      let lines = text.split('\n');
+      if (lines.length > 1) {
+        // 將第一行複製到剪貼簿
+        navigator.clipboard.writeText(lines[0]);
+
+        // 刪除第一行，將第二行變成第一行
+        let remainingLines = lines.slice(1).join('\n');
+        editArea.value = remainingLines;
+      }
+    }
+
+    function restoreText() {
+      // 恢復功能保持不變
+      let editArea = document.getElementById('editArea');
+      // 將剪貼簿內容放回文本區域
+      navigator.clipboard.readText().then(clipText => {
+        if (clipText !== '') {
+          editArea.value = clipText + '\n' + editArea.value;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
