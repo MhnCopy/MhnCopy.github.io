@@ -13,6 +13,7 @@
   }
   .radio-label {
     margin-right: 20px;
+    display: inline-block;
   }
   .image-container {
     margin-top: 20px;
@@ -40,12 +41,12 @@
 <div class="container" id="opponentPositionContainer">
   <h2>对手位子:</h2>
   <form id="opponentPositionForm">
-    <label class="radio-label"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
-    <label class="radio-label"><input type="radio" name="opponentPosition" value="HJ"> HJ</label>
-    <label class="radio-label"><input type="radio" name="opponentPosition" value="CO"> CO</label>
-    <label class="radio-label"><input type="radio" name="opponentPosition" value="BTN"> BTN</label>
-    <label class="radio-label"><input type="radio" name="opponentPosition" value="SB"> SB</label>
-    <label class="radio-label"><input type="radio" name="opponentPosition" value="BB"> BB</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="CO"> CO</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BTN"> BTN</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="SB"> SB</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BB"> BB</label>
   </form>
 </div>
 
@@ -58,7 +59,7 @@
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
     showImage();
-    hideOpponentUTG();
+    hideOpponent();
   });
 });
 
@@ -84,21 +85,21 @@ function showImage() {
   }
 }
 
-function hideOpponentUTG() {
+function hideOpponent() {
   var myPosition = document.querySelector('input[name="myPosition"]:checked');
-  var opponentPositionContainer = document.getElementById('opponentPositionContainer');
+  var opponentPositions = document.querySelectorAll('.opponent-position');
 
-  if (myPosition && myPosition.value === 'UTG') {
-    var opponentUTG = document.querySelector('input[name="opponentPosition"][value="UTG"]');
-    if (opponentUTG) {
-      opponentUTG.style.display = 'none';
+  opponentPositions.forEach(function(opponentPosition) {
+    if (myPosition) {
+      if (opponentPosition.textContent.trim() === myPosition.value) {
+        opponentPosition.style.display = 'none';
+      } else {
+        opponentPosition.style.display = 'inline-block';
+      }
+    } else {
+      opponentPosition.style.display = 'inline-block';
     }
-  } else {
-    var opponentUTG = document.querySelector('input[name="opponentPosition"][value="UTG"]');
-    if (opponentUTG) {
-      opponentUTG.style.display = 'inline-block';
-    }
-  }
+  });
 }
 </script>
 
