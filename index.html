@@ -1,6 +1,3 @@
-了解，我会对代码进行调整，确保在手机端 "我:" 和选项一行显示，并将总宽度限制在螢幕宽度的 95%。
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +10,7 @@
   }
   .container {
     margin-bottom: 20px;
+    max-width: 80vw; /* 将容器宽度限制在螢幕宽度的80% */
   }
   .radio-label {
     margin-right: 10px;
@@ -59,33 +57,7 @@
 <div class="image-container" id="imageContainer">
   <!-- 无需按钮，直接在选择完位子后显示图片 -->
 </div>
-<div class="footer">
-  <p>
-    转载自 Gshan吉祥<br>
-    YouTube影片說明: <a href="https://www.youtube.com/watch?v=DqrcHlZmYDQ">https://www.youtube.com/watch?v=DqrcHlZmYDQ</a><br>
-    <br>
-    使用"簡單"說明<br>
-    1. 可以將100%縮放到75 or 50%為好讀版，將連結儲存打牌時可以對照<br>
-    2. 分頁為你所在的位置。<br>
-    3. XXX strategy為 大家都蓋時輪到你的決策線。XXX Raise 為敵人Raise後你的決策。<br>
-       3Bet為敵人所在位置3B你時的決策圖。<br>
-    4. 若七人桌就當UTG即可 EV不會差太多<br>
-    5. 沒有多人情形 也沒有cold call<br>
-    6. 加注尺寸為標準GTO邏輯<br>
-    撲克平台ClubGG和N8與Gshan的合作活動: <a href="https://lit.link/en/gshan77">https://lit.link/en/gshan77</a><br>
-    <br>
-    其他備註<br>
-    適合平台ClubGG or N8 Cash<br>
-    實戰上還是要針對平台強度跟對手HUD做調整<br>
-    若你覺得這個表格對你有幫助 請多來N8或ClubGG送Gshan幾組<br>
-    若你不想送 至少訂閱我YT吧<br>
-    <br>
-    此文件和操作分享有經過GTOwizard同意<br>
-    <br>
-    基本假設 PS.ACR 架構 NL50 GTO 100BB deep simple<br>
-    若喜歡請支持GTOwizard使用此連結有八五折優惠 <a href="https://gtowizard.com/p/gshan77">https://gtowizard.com/p/gshan77</a>
-  </p>
-</div>
+
 <script>
 // 添加事件监听器，当选择完位子后，自动显示图片
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
