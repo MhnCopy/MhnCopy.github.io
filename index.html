@@ -37,7 +37,7 @@
   </form>
 </div>
 
-<div class="container">
+<div class="container" id="opponentPositionContainer">
   <h2>对手位子:</h2>
   <form id="opponentPositionForm">
     <label class="radio-label"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
@@ -49,7 +49,7 @@
   </form>
 </div>
 
-<div class="image-container">
+<div class="image-container" id="imageContainer">
   <!-- 无需按钮，直接在选择完位子后显示图片 -->
 </div>
 
@@ -58,6 +58,7 @@
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
     showImage();
+    hideOpponentUTG();
   });
 });
 
@@ -80,6 +81,23 @@ function showImage() {
     var imageContainer = document.querySelector('.image-container');
     imageContainer.innerHTML = '';
     imageContainer.appendChild(image);
+  }
+}
+
+function hideOpponentUTG() {
+  var myPosition = document.querySelector('input[name="myPosition"]:checked');
+  var opponentPositionContainer = document.getElementById('opponentPositionContainer');
+
+  if (myPosition && myPosition.value === 'UTG') {
+    var opponentUTG = document.querySelector('input[name="opponentPosition"][value="UTG"]');
+    if (opponentUTG) {
+      opponentUTG.style.display = 'none';
+    }
+  } else {
+    var opponentUTG = document.querySelector('input[name="opponentPosition"][value="UTG"]');
+    if (opponentUTG) {
+      opponentUTG.style.display = 'inline-block';
+    }
   }
 }
 </script>
