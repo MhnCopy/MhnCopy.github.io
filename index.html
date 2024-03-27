@@ -34,24 +34,26 @@
 <div class="container">
   <h2 class="title">我:</h2>
   <div id="myPositionForm">
-    <label class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</label>
-    <label class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</label>
-    <label class="radio-label"><input type="radio" name="myPosition" value="CO"> CO</label>
-    <label class="radio-label"><input type="radio" name="myPosition" value="BTN"> BTN</label>
-    <label class="radio-label"><input type="radio" name="myPosition" value="SB"> SB</label>
-    <label class="radio-label"><input type="radio" name="myPosition" value="BB"> BB</label>
+    <label class="radio-label" style="display:none"><input type="radio" name="myPosition" value="UTG"> UTG</label>
+    <label class="radio-label">我:<input type="radio" name="myPosition" value="UTG" onchange="updateOpponentPosition('UTG')"> UTG</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="HJ" onchange="updateOpponentPosition('HJ')"> HJ</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="CO" onchange="updateOpponentPosition('CO')"> CO</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="BTN" onchange="updateOpponentPosition('BTN')"> BTN</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="SB" onchange="updateOpponentPosition('SB')"> SB</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="BB" onchange="updateOpponentPosition('BB')"> BB</label>
   </div>
 </div>
 
 <div class="container" id="opponentPositionContainer">
   <h2 class="title">對手:</h2>
   <form id="opponentPositionForm">
-    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
-    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</label>
-    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="CO"> CO</label>
-    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BTN"> BTN</label>
-    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="SB"> SB</label>
-    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BB"> BB</label>
+    <label class="radio-label" style="display:none"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
+    <label class="radio-label" id="opponentUTGLabel">對手:<input type="radio" name="opponentPosition" value="UTG" id="opponentUTG" onchange="updateMyPosition('UTG')"> UTG</label>
+    <label class="radio-label" id="opponentHJLabel"><input type="radio" name="opponentPosition" value="HJ" id="opponentHJ" onchange="updateMyPosition('HJ')"> HJ</label>
+    <label class="radio-label" id="opponentCOLabel"><input type="radio" name="opponentPosition" value="CO" id="opponentCO" onchange="updateMyPosition('CO')"> CO</label>
+    <label class="radio-label" id="opponentBTNLabel"><input type="radio" name="opponentPosition" value="BTN" id="opponentBTN" onchange="updateMyPosition('BTN')"> BTN</label>
+    <label class="radio-label" id="opponentSBLabel"><input type="radio" name="opponentPosition" value="SB" id="opponentSB" onchange="updateMyPosition('SB')"> SB</label>
+    <label class="radio-label" id="opponentBBLabel"><input type="radio" name="opponentPosition" value="BB" id="opponentBB" onchange="updateMyPosition('BB')"> BB</label>
   </form>
 </div>
 
@@ -64,15 +66,15 @@
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
     showImage();
-    hideOpponent();
   });
 });
 
 function showImage() {
   // 获取我的位子和对手位子的选中状态
   var myPosition = document.querySelector('input[name="myPosition"]:checked');
-  var opponentPosition = document.querySelector('input[name="opponentPosition"]:checked');
-
+  var opponentPosition = document.querySelector('input
+name="opponentPosition"]:checked');
+  
   // 如果我的位子和对手位子都已选择，则显示图片
   if (myPosition && opponentPosition) {
     // 构建图片文件名
@@ -95,38 +97,34 @@ function showImage() {
   }
 }
 
-function hideOpponent() {
-  var myPosition = document.querySelector('input[name="myPosition"]:checked');
-  var opponentPositions = document.querySelectorAll('.opponent-position');
-
-  opponentPositions.forEach(function(opponentPosition) {
-    if (myPosition) {
-      if (opponentPosition.textContent.trim() === myPosition.value) {
-        opponentPosition.style.display = 'none';
-      } else {
-        opponentPosition.style.display = 'inline-block';
-      }
+function updateOpponentPosition(position) {
+  var opponentPositionRadios = document.querySelectorAll('input[name="opponentPosition"]');
+  opponentPositionRadios.forEach(function(radio) {
+    if (radio.value === position) {
+      radio.checked = true;
     } else {
-      opponentPosition.style.display = 'inline-block';
+      radio.checked = false;
     }
   });
+  showImage();
 }
 
-// 预设选中相同的对手位子
-document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
-  elem.addEventListener('change', function() {
-    var myPositionValue = this.value;
-    var opponentPositionRadios = document.querySelectorAll('input[name="opponentPosition"]');
-    opponentPositionRadios.forEach(function(opponentPositionRadio) {
-      if (opponentPositionRadio.value === myPositionValue) {
-        opponentPositionRadio.checked = true;
-      }
-    });
+function updateMyPosition(position) {
+  var myPositionRadio = document.querySelector('input[name="myPosition"][value="' + position + '"]');
+  var opponentPositionRadio = document.querySelector('input[name="opponentPosition"][value="' + position + '"]');
+  
+  // 如果当前点击的我的位置已经被选中，则取消选择
+  if (myPositionRadio.checked) {
+    myPositionRadio.checked = false;
     showImage();
-  });
-});
+    return;
+  }
+  
+  myPositionRadio.checked = true;
+  showImage();
+}
 
-// 頁面加載時顯示圖片
+// 页面加载时显示图片
 window.onload = function() {
   showImage();
 };
