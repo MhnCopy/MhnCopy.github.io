@@ -10,12 +10,11 @@
   }
   .container {
     margin-bottom: 20px;
-    display: flex; /* 将容器内的元素水平排列 */
-    flex-wrap: wrap; /* 允许元素换行 */
-    justify-content: space-between; /* 水平分散排列元素 */
+    max-width: 80vw; /* 将容器宽度限制在螢幕宽度的80% */
+    white-space: nowrap; /* 防止文本自动换行 */
   }
   .radio-label {
-    margin-right: 5px; /* 减小 radio 之间的间距 */
+    margin-right: 10px;
     display: inline-block;
   }
   .image-container {
@@ -33,30 +32,27 @@
 <body>
 
 <div class="container">
-  <div>
-    <h2 class="title" style="display:none">我:</h2>
-    <form id="myPositionForm">
-      <span class="radio-label" style="display:none"><input type="radio" name="myPosition" value="UTG"> UTG</span>
-      <span class="radio-label">我:<input type="radio" name="myPosition" value="UTG" onchange="updateOpponentPosition('UTG')"> UTG</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="HJ" onchange="updateOpponentPosition('HJ')"> HJ</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="CO" onchange="updateOpponentPosition('CO')"> CO</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="BTN" onchange="updateOpponentPosition('BTN')"> BTN</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="SB" onchange="updateOpponentPosition('SB')"> SB</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="BB" onchange="updateOpponentPosition('BB')"> BB</span>
-    </form>
+  <h2 class="title">我:</h2>
+  <div id="myPositionForm">
+    <label class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="CO"> CO</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="BTN"> BTN</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="SB"> SB</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="BB"> BB</label>
   </div>
-  <div>
-    <h2 class="title" style="display:none">對手:</h2>
-    <form id="opponentPositionForm">
-      <span class="radio-label" style="display:none"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
-      <span class="radio-label">對手:<input type="radio" name="opponentPosition" value="UTG" id="opponentUTG"> UTG</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="HJ" id="opponentHJ"> HJ</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="CO" id="opponentCO"> CO</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="BTN" id="opponentBTN"> BTN</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="SB" id="opponentSB"> SB</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="BB" id="opponentBB"> BB</span>
-    </form>
-  </div>
+</div>
+
+<div class="container" id="opponentPositionContainer">
+  <h2 class="title">對手:</h2>
+  <form id="opponentPositionForm">
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="CO"> CO</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BTN"> BTN</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="SB"> SB</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BB"> BB</label>
+  </form>
 </div>
 
 <div class="image-container" id="imageContainer">
@@ -64,23 +60,77 @@
 </div>
 
 <script>
+// 添加事件监听器，当选择完位子后，自动显示图片
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
     showImage();
-    if (this.name === "myPosition") {
-      updateOpponentPosition(this.value);
-    }
+    hideOpponent();
   });
 });
 
-function updateOpponentPosition(position) {
-  document.getElementById('opponentUTG').checked = position === 'UTG';
-  document.getElementById('opponentHJ').checked = position === 'HJ';
-  document.getElementById('opponentCO').checked = position === 'CO';
-  document.getElementById('opponentBTN').checked = position === 'BTN';
-  document.getElementById('opponentSB').checked = position === 'SB';
-  document.getElementById('opponentBB').checked = position === 'BB';
+function showImage() {
+  // 获取我的位子和对手位子的选中状态
+  var myPosition = document.querySelector('input[name="myPosition"]:checked');
+  var opponentPosition = document.querySelector('input[name="opponentPosition"]:checked');
+
+  // 如果我的位子和对手位子都已选择，则显示图片
+  if (myPosition && opponentPosition) {
+    // 构建图片文件名
+    var fileName;
+    if (opponentPosition && myPosition.value === opponentPosition.value) {
+      fileName = myPosition.value + '_' + myPosition.value + '.png';
+    } else {
+      fileName = myPosition.value + '_' + opponentPosition.value + '.png';
+    }
+    // 构建图片路径
+    // GitHub上的路径应该是相对于GitHub仓库的根目录，例如：images/fileName.png
+    var imagePath = 'images/' + fileName; // 这里假设您的图片存放在名为 "images" 的文件夹下
+    // 创建图片元素并设置路径
+    var image = new Image();
+    image.src = imagePath;
+    // 显示图片
+    var imageContainer = document.querySelector('.image-container');
+    imageContainer.innerHTML = '';
+    imageContainer.appendChild(image);
+  }
 }
 
-function showImage() {
-  var myPosition = document
+function hideOpponent() {
+  var myPosition = document.querySelector('input[name="myPosition"]:checked');
+  var opponentPositions = document.querySelectorAll('.opponent-position');
+
+  opponentPositions.forEach(function(opponentPosition) {
+    if (myPosition) {
+      if (opponentPosition.textContent.trim() === myPosition.value) {
+        opponentPosition.style.display = 'none';
+      } else {
+        opponentPosition.style.display = 'inline-block';
+      }
+    } else {
+      opponentPosition.style.display = 'inline-block';
+    }
+  });
+}
+
+// 预设选中相同的对手位子
+document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
+  elem.addEventListener('change', function() {
+    var myPositionValue = this.value;
+    var opponentPositionRadios = document.querySelectorAll('input[name="opponentPosition"]');
+    opponentPositionRadios.forEach(function(opponentPositionRadio) {
+      if (opponentPositionRadio.value === myPositionValue) {
+        opponentPositionRadio.checked = true;
+      }
+    });
+    showImage();
+  });
+});
+
+// 頁面加載時顯示圖片
+window.onload = function() {
+  showImage();
+};
+</script>
+
+</body>
+</html>
