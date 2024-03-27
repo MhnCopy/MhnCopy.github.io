@@ -17,7 +17,6 @@
   .radio-label {
     margin-right: 5px; /* 减小 radio 之间的间距 */
     display: inline-block;
-    white-space: nowrap; /* 防止文本自动换行 */
   }
   .image-container {
     margin-top: 20px;
@@ -35,19 +34,21 @@
 
 <div class="container">
   <div>
-    <h2 class="title">我:</h2>
-    <div id="myPositionWrapper">
+    <form id="myPositionForm">
+      <span class="radio-label">我:</span>
+      <span class="radio-label" style="display:none;"><input type="radio" name="myPosition" value="我">我</span>
       <span class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</span>
       <span class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</span>
       <span class="radio-label"><input type="radio" name="myPosition" value="CO"> CO</span>
       <span class="radio-label"><input type="radio" name="myPosition" value="BTN"> BTN</span>
       <span class="radio-label"><input type="radio" name="myPosition" value="SB"> SB</span>
       <span class="radio-label"><input type="radio" name="myPosition" value="BB"> BB</span>
-    </div>
+    </form>
   </div>
   <div>
-    <h2 class="title">對手:</h2>
     <form id="opponentPositionForm">
+      <span class="radio-label">對手:</span>
+      <span class="radio-label" style="display:none;"><input type="radio" name="opponentPosition" value="對手">對手</span>
       <span class="radio-label"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
       <span class="radio-label"><input type="radio" name="opponentPosition" value="HJ"> HJ</span>
       <span class="radio-label"><input type="radio" name="opponentPosition" value="CO"> CO</span>
