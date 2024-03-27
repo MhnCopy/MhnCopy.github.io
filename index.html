@@ -36,23 +36,25 @@
   <div>
     <h2 class="title" style="display:none">我:</h2>
     <form id="myPositionForm">
-      <span class="radio-label">我:<input type="radio" name="myPosition" value="UTG" style="display:none"> UTG</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="CO"> CO</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="BTN"> BTN</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="SB"> SB</span>
-      <span class="radio-label"><input type="radio" name="myPosition" value="BB"> BB</span>
+      <span class="radio-label" style="display:none"><input type="radio" name="myPosition" value="UTG"> UTG</span>
+      <span class="radio-label">我:<input type="radio" name="myPosition" value="UTG" onchange="updateOpponentPosition('UTG')"> UTG</span>
+      <span class="radio-label"><input type="radio" name="myPosition" value="HJ" onchange="updateOpponentPosition('HJ')"> HJ</span>
+      <span class="radio-label"><input type="radio" name="myPosition" value="CO" onchange="updateOpponentPosition('CO')"> CO</span>
+      <span class="radio-label"><input type="radio" name="myPosition" value="BTN" onchange="updateOpponentPosition('BTN')"> BTN</span>
+      <span class="radio-label"><input type="radio" name="myPosition" value="SB" onchange="updateOpponentPosition('SB')"> SB</span>
+      <span class="radio-label"><input type="radio" name="myPosition" value="BB" onchange="updateOpponentPosition('BB')"> BB</span>
     </form>
   </div>
   <div>
     <h2 class="title" style="display:none">對手:</h2>
     <form id="opponentPositionForm">
-      <span class="radio-label">對手:<input type="radio" name="opponentPosition" value="UTG" style="display:none"> UTG</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="HJ"> HJ</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="CO"> CO</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="BTN"> BTN</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="SB"> SB</span>
-      <span class="radio-label"><input type="radio" name="opponentPosition" value="BB"> BB</span>
+      <span class="radio-label" style="display:none"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
+      <span class="radio-label">對手:<input type="radio" name="opponentPosition" value="UTG" id="opponentUTG"> UTG</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="HJ" id="opponentHJ"> HJ</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="CO" id="opponentCO"> CO</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="BTN" id="opponentBTN"> BTN</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="SB" id="opponentSB"> SB</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="BB" id="opponentBB"> BB</span>
     </form>
   </div>
 </div>
@@ -65,37 +67,20 @@
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
     showImage();
-    if (this.name === "opponentPosition" && this.checked) {
-      clearOpponentSelection();
+    if (this.name === "myPosition") {
+      updateOpponentPosition(this.value);
     }
   });
 });
 
+function updateOpponentPosition(position) {
+  document.getElementById('opponentUTG').checked = position === 'UTG';
+  document.getElementById('opponentHJ').checked = position === 'HJ';
+  document.getElementById('opponentCO').checked = position === 'CO';
+  document.getElementById('opponentBTN').checked = position === 'BTN';
+  document.getElementById('opponentSB').checked = position === 'SB';
+  document.getElementById('opponentBB').checked = position === 'BB';
+}
+
 function showImage() {
-  var myPosition = document.querySelector('input[name="myPosition"]:checked');
-  var opponentPosition = document.querySelector('input[name="opponentPosition"]:checked');
-  
-  if (myPosition && opponentPosition) {
-    var fileName = opponentPosition.value === myPosition.value ? myPosition.value + '_' + myPosition.value + '.png' : myPosition.value + '_' + opponentPosition.value + '.png';
-    var imagePath = 'images/' + fileName;
-    var image = new Image();
-    image.src = imagePath;
-    var imageContainer = document.querySelector('.image-container');
-    imageContainer.innerHTML = '';
-    imageContainer.appendChild(image);
-  }
-}
-
-function clearOpponentSelection() {
-  document.querySelectorAll('input[name="opponentPosition"]').forEach(function(elem) {
-    elem.checked = false;
-  });
-}
-
-window.onload = function() {
-  showImage();
-};
-</script>
-
-</body>
-</html>
+  var myPosition = document
