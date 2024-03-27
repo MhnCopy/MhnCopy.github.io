@@ -56,12 +56,24 @@
 
 <script>
 // 添加事件监听器，当选择完位子后，自动显示图片
-document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
+document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
+    setOpponentPosition();
     showImage();
     hideOpponent();
   });
 });
+
+function setOpponentPosition() {
+  var myPosition = document.querySelector('input[name="myPosition"]:checked');
+  var opponentPositions = document.querySelectorAll('.opponent-position input');
+
+  opponentPositions.forEach(function(opponentPosition) {
+    if (opponentPosition.value === myPosition.value) {
+      opponentPosition.checked = true;
+    }
+  });
+}
 
 function showImage() {
   // 获取我的位子和对手位子的选中状态
