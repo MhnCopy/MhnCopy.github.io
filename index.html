@@ -71,7 +71,12 @@ function showImage() {
   // 如果我的位子和对手位子都已选择，则显示图片
   if (myPosition && opponentPosition) {
     // 构建图片文件名
-    var fileName = myPosition.value + '_' + opponentPosition.value + '.png';
+    var fileName;
+    if (myPosition.value === opponentPosition.value) {
+      fileName = myPosition.value + '_' + myPosition.value + '.png';
+    } else {
+      fileName = myPosition.value + '_' + opponentPosition.value + '.png';
+    }
     // 构建图片路径
     // GitHub上的路径应该是相对于GitHub仓库的根目录，例如：images/fileName.png
     var imagePath = 'images/' + fileName; // 这里假设您的图片存放在名为 "images" 的文件夹下
