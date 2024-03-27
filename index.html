@@ -14,6 +14,7 @@
   .radio-label {
     margin-right: 10px;
     display: inline-block;
+    width: auto;
   }
   .image-container {
     margin-top: 20px;
@@ -22,12 +23,18 @@
     max-width: 95%; /* 图片大小调整为95% */
     height: auto;
   }
+  h2 {
+    font-size: 70%; /* 将"h2"元素的字体大小缩小为原来的70% */
+  }
+  .small-text {
+    font-size: 70%; /* 将类名为"small-text"的元素的字体大小缩小为原来的70% */
+  }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>我:</h2>
+  <h2 class="small-text">我:</h2>
   <form id="myPositionForm">
     <span class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</span>
     <span class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</span>
@@ -39,7 +46,7 @@
 </div>
 
 <div class="container" id="opponentPositionContainer">
-  <h2>對手:</h2>
+  <h2 class="small-text">對手:</h2>
   <form id="opponentPositionForm">
     <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
     <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</span>
@@ -107,6 +114,11 @@ function hideOpponent() {
   });
 }
 
+// 预设选中相同的对手位子
+document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
+  elem.addEventListener('change', function() {
+    var myPositionValue = this.value;
+    var opponentPositionRadios = document.querySelectorAll
 // 预设选中相同的对手位子
 document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
