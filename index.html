@@ -19,7 +19,7 @@
     margin-top: 20px;
   }
   img {
-    max-width: 90%;
+    max-width: 99%;
     height: auto;
   }
 </style>
@@ -27,7 +27,7 @@
 <body>
 
 <div class="container">
-  <h2>我的位子:</h2>
+  <h2>我:</h2>
   <form id="myPositionForm">
     <label class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</label>
     <label class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</label>
@@ -38,8 +38,8 @@
   </form>
 </div>
 
-<div class="container" id="opponentPositionContainer">
-  <h2>对手位子:</h2>
+<div class="container">
+  <h2>對手:</h2>
   <form id="opponentPositionForm">
     <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
     <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</label>
@@ -56,24 +56,12 @@
 
 <script>
 // 添加事件监听器，当选择完位子后，自动显示图片
-document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
+document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
-    setOpponentPosition();
     showImage();
     hideOpponent();
   });
 });
-
-function setOpponentPosition() {
-  var myPosition = document.querySelector('input[name="myPosition"]:checked');
-  var opponentPositions = document.querySelectorAll('.opponent-position input');
-
-  opponentPositions.forEach(function(opponentPosition) {
-    if (opponentPosition.value === myPosition.value) {
-      opponentPosition.checked = true;
-    }
-  });
-}
 
 function showImage() {
   // 获取我的位子和对手位子的选中状态
@@ -118,6 +106,20 @@ function hideOpponent() {
     }
   });
 }
+
+// 预设选中相同的对手位子
+document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
+  elem.addEventListener('change', function() {
+    var myPositionValue = this.value;
+    var opponentPositionRadios = document.querySelectorAll('input[name="opponentPosition"]');
+    opponentPositionRadios.forEach(function(opponentPositionRadio) {
+      if (opponentPositionRadio.value === myPositionValue) {
+        opponentPositionRadio.checked = true;
+      }
+    });
+    showImage();
+  });
+});
 </script>
 
 </body>
