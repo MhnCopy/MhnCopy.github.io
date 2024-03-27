@@ -11,6 +11,7 @@
   .container {
     margin-bottom: 20px;
     max-width: 80vw; /* 将容器宽度限制在螢幕宽度的80% */
+    white-space: nowrap; /* 防止文本自动换行 */
   }
   .radio-label {
     margin-right: 10px;
@@ -32,25 +33,25 @@
 
 <div class="container">
   <h2 class="title">我:</h2>
-  <form id="myPositionForm">
-    <span class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</span>
-    <span class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</span>
-    <span class="radio-label"><input type="radio" name="myPosition" value="CO"> CO</span>
-    <span class="radio-label"><input type="radio" name="myPosition" value="BTN"> BTN</span>
-    <span class="radio-label"><input type="radio" name="myPosition" value="SB"> SB</span>
-    <span class="radio-label"><input type="radio" name="myPosition" value="BB"> BB</span>
-  </form>
+  <div id="myPositionForm">
+    <label class="radio-label"><input type="radio" name="myPosition" value="UTG"> UTG</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="HJ"> HJ</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="CO"> CO</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="BTN"> BTN</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="SB"> SB</label>
+    <label class="radio-label"><input type="radio" name="myPosition" value="BB"> BB</label>
+  </div>
 </div>
 
 <div class="container" id="opponentPositionContainer">
   <h2 class="title">對手:</h2>
   <form id="opponentPositionForm">
-    <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
-    <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</span>
-    <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="CO"> CO</span>
-    <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BTN"> BTN</span>
-    <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="SB"> SB</span>
-    <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BB"> BB</span>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="CO"> CO</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BTN"> BTN</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="SB"> SB</label>
+    <label class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BB"> BB</label>
   </form>
 </div>
 
