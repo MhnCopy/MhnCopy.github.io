@@ -72,7 +72,7 @@ function showImage() {
   if (myPosition && opponentPosition) {
     // 构建图片文件名
     var fileName;
-    if (myPosition.value === opponentPosition.value) {
+    if (opponentPosition && myPosition.value === opponentPosition.value) {
       fileName = myPosition.value + '_' + myPosition.value + '.png';
     } else {
       fileName = myPosition.value + '_' + opponentPosition.value + '.png';
