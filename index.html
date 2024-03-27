@@ -15,7 +15,7 @@
     justify-content: space-between; /* 水平分散排列元素 */
   }
   .radio-label {
-    margin-right: 10px;
+    margin-right: 5px; /* 减小 radio 之间的间距 */
     display: inline-block;
   }
   .image-container {
@@ -47,12 +47,12 @@
   <div>
     <h2 class="title">對手:</h2>
     <form id="opponentPositionForm">
-      <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
-      <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="HJ"> HJ</span>
-      <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="CO"> CO</span>
-      <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BTN"> BTN</span>
-      <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="SB"> SB</span>
-      <span class="radio-label opponent-position"><input type="radio" name="opponentPosition" value="BB"> BB</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="UTG"> UTG</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="HJ"> HJ</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="CO"> CO</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="BTN"> BTN</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="SB"> SB</span>
+      <span class="radio-label"><input type="radio" name="opponentPosition" value="BB"> BB</span>
     </form>
   </div>
 </div>
@@ -60,101 +60,38 @@
 <div class="image-container" id="imageContainer">
   <!-- 无需按钮，直接在选择完位子后显示图片 -->
 </div>
-<div class="footer">
-  <p>
-    转载自 Gshan吉祥<br>
-    YouTube影片說明: <a href="https://www.youtube.com/watch?v=DqrcHlZmYDQ">https://www.youtube.com/watch?v=DqrcHlZmYDQ</a><br>
-    <br>
-    使用"簡單"說明<br>
-    1. 可以將100%縮放到75 or 50%為好讀版，將連結儲存打牌時可以對照<br>
-    2. 分頁為你所在的位置。<br>
-    3. XXX strategy為 大家都蓋時輪到你的決策線。XXX Raise 為敵人Raise後你的決策。<br>
-       3Bet為敵人所在位置3B你時的決策圖。<br>
-    4. 若七人桌就當UTG即可 EV不會差太多<br>
-    5. 沒有多人情形 也沒有cold call<br>
-    6. 加注尺寸為標準GTO邏輯<br>
-    撲克平台ClubGG和N8與Gshan的合作活動: <a href="https://lit.link/en/gshan77">https://lit.link/en/gshan77</a><br>
-    <br>
-    其他備註<br>
-    適合平台ClubGG or N8 Cash<br>
-    實戰上還是要針對平台強度跟對手HUD做調整<br>
-    若你覺得這個表格對你有幫助 請多來N8或ClubGG送Gshan幾組<br>
-    若你不想送 至少訂閱我YT吧<br>
-    <br>
-    此文件和操作分享有經過GTOwizard同意<br>
-    <br>
-    基本假設 PS.ACR 架構 NL50 GTO 100BB deep simple<br>
-    若喜歡請支持GTOwizard使用此連結有八五折優惠 <a href="https://gtowizard.com/p/gshan77">https://gtowizard.com/p/gshan77</a>
-  </p>
-</div>
+
 <script>
-// 添加事件监听器，当选择完位子后，自动显示图片
 document.querySelectorAll('input[name="myPosition"], input[name="opponentPosition"]').forEach(function(elem) {
   elem.addEventListener('change', function() {
     showImage();
-    hideOpponent();
+    if (this.name === "opponentPosition" && this.checked) {
+      clearOpponentSelection();
+    }
   });
 });
 
 function showImage() {
-  // 获取我的位子和对手位子的选中状态
   var myPosition = document.querySelector('input[name="myPosition"]:checked');
   var opponentPosition = document.querySelector('input[name="opponentPosition"]:checked');
-
-  // 如果我的位子和对手位子都已选择，则显示图片
+  
   if (myPosition && opponentPosition) {
-    // 构建图片文件名
-    var fileName;
-    if (opponentPosition && myPosition.value === opponentPosition.value) {
-      fileName = myPosition.value + '_' + myPosition.value + '.png';
-    } else {
-      fileName = myPosition.value + '_' + opponentPosition.value + '.png';
-    }
-    // 构建图片路径
-    // GitHub上的路径应该是相对于GitHub仓库的根目录，例如：images/fileName.png
-    var imagePath = 'images/' + fileName; // 这里假设您的图片存放在名为 "images" 的文件夹下
-    // 创建图片元素并设置路径
+    var fileName = opponentPosition.value === myPosition.value ? myPosition.value + '_' + myPosition.value + '.png' : myPosition.value + '_' + opponentPosition.value + '.png';
+    var imagePath = 'images/' + fileName;
     var image = new Image();
     image.src = imagePath;
-    // 显示图片
     var imageContainer = document.querySelector('.image-container');
     imageContainer.innerHTML = '';
     imageContainer.appendChild(image);
   }
 }
 
-function hideOpponent() {
-  var myPosition = document.querySelector('input[name="myPosition"]:checked');
-  var opponentPositions = document.querySelectorAll('.opponent-position');
-
-  opponentPositions.forEach(function(opponentPosition) {
-    if (myPosition) {
-      if (opponentPosition.textContent.trim() === myPosition.value) {
-        opponentPosition.style.display = 'none';
-      } else {
-        opponentPosition.style.display = 'inline-block';
-      }
-    } else {
-      opponentPosition.style.display = 'inline-block';
-    }
+function clearOpponentSelection() {
+  document.querySelectorAll('input[name="opponentPosition"]').forEach(function(elem) {
+    elem.checked = false;
   });
 }
 
-// 预设选中相同的对手位子
-document.querySelectorAll('input[name="myPosition"]').forEach(function(elem) {
-  elem.addEventListener('change', function() {
-    var myPositionValue = this.value;
-    var opponentPositionRadios = document.querySelectorAll('input[name="opponentPosition"]');
-    opponentPositionRadios.forEach(function(opponentPositionRadio) {
-      if (opponentPositionRadio.value === myPositionValue) {
-        opponentPositionRadio.checked = true;
-      }
-    });
-    showImage();
-  });
-});
-
-// 頁面加載時顯示圖片
 window.onload = function() {
   showImage();
 };
